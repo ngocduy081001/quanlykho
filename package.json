@@ -1,0 +1,42 @@
+{
+  "name": "nd",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "connect-redis": "^7.0.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "excel4node": "^1.8.1",
+    "express": "^4.18.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.3",
+    "express-validator": "^6.15.0",
+    "file-manager": "^2.0.1",
+    "form-data": "^4.0.0",
+    "http-errors": "~1.6.3",
+    "image-thumbnail": "^1.0.15",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.3",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.6.0",
+    "old-input": "^1.1.0",
+    "puppeteer": "^19.11.0",
+    "redis": "^4.6.6",
+    "request": "^2.88.2",
+    "select2": "^4.1.0-rc.0",
+    "sharp": "^0.32.1",
+    "socket.io": "^4.6.1",
+    "sweetalert": "^2.1.2",
+    "uuid": "^9.0.0",
+    "validator": "^13.9.0"
+  }
+}

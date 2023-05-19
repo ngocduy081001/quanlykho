@@ -1,0 +1,199 @@
+<!-- Core JS -->
+<script src="/socket.io/socket.io.js"></script>
+<!-- build:js assets/vendor/js/core.js -->
+<script src="/admin/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="/admin/assets/vendor/libs/popper/popper.js"></script>
+<script src="/admin/assets/vendor/js/bootstrap.js"></script>
+<script src="/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="/admin/assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script src="/admin/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+<!-- Main JS -->
+<script src="/admin/assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="/admin/assets/js/dashboards-analytics.js"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    let confirm = function (e) {
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var url = $(e).data('url');
+                var id = $(e).data('id');
+                $.ajax({
+                    type: "get",
+                    url: url,
+                    success: function (response) {
+                        console.log(response);
+                        if (response['status'] == 200) {
+                            location.reload();
+                        }
+                    }
+                });
+
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                )
+            }
+        })
+    }
+
+    $('#search').keyup(function () {
+        let search = $(this).val();
+        $.ajax({
+            type: "get",
+            url: "?search=" + search,
+            success: function (response) {
+
+
+                $('#table-content').html(response)
+            }
+        });
+    })
+
+    $('#check-all').click(function (event) {
+        if (this.checked) {
+            // Iterate each checkbox
+            $(':checkbox').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(':checkbox').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+
+    multi_delete = function (e) {
+        let multi_select = $('input[name="chk-item"]:checked');
+        let data = Array();
+        let url = $(e).data('url');
+
+        $('input[name="chk-item"]:checked').each(function (e) {
+            data.push($(this).val());
+        });
+
+        if (data.length) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: {
+                            data: data
+                        },
+
+                        success: function (response) {
+                            if (response['status'] == 200) {
+                                location.reload()
+                            }
+                        }
+                    });
+
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                }
+            })
+
+        }
+
+    }
+
+    let filter = function (e) {
+        let phan_tu = $('#perPage').val();
+        let sort_field = $('#sort_field').val();
+        let sort_type = $('#sort_type').val();
+        let query = '?perPage=' + phan_tu + '&sort_field=' + sort_field + '&sort_type=' + sort_type;
+        $.ajax({
+            type: "get",
+            url: query + '&type=1',
+            success: function (response) {
+                window.history.pushState('', '', query);
+                $('#table-content').html(response)
+            }
+        });
+    }
+</script>
+<script>
+
+    $('#showToastPlacement').click(function (e) {
+        e.preventDefault();
+        $('.toast').addClass('show')
+    });
+    $(document).ready(function () {
+        $(".icon").on('click', function (event) {
+            if ($('.icon > i').hasClass('bx-minus')) {
+                $('.icon > i').removeClass('bx-minus').addClass('bx-plus');
+            } else {
+                $('.icon > i').removeClass('bx-plus').addClass('bx-minus');
+            }
+
+
+        })
+    });
+
+</script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            // get current URL path and assign 'active' class
+            var pathname = window.location.pathname;
+            $('.menu-item  > a[href="' + pathname + '"]').parent().addClass('active');
+            $('.menu-item  > a[href="' + pathname + '"]').parent().parent().parent().addClass('active open');
+        });
+    })(jQuery);
+    var socket = io("http://localhost:3000");
+</script>
