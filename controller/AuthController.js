@@ -2,24 +2,26 @@ const User = require("../model/UserModel");
 
 const bcrypt = require("bcrypt");
 
-var express = require('express');
+var express = require("express");
 
 var app = express();
 
-var session  = require('express-session')
+var session = require("express-session");
 
-app.set('trust proxy', 1) // trust first proxy
+app.set("trust proxy", 1);
 
+const jwt = require("jsonwebtoken");
 
 class AuthController {
   getFormLogin(req, res) {
     res.render("page/form/login");
   }
 
-  postFormLogin(req, res, next) {
-
+  async postFormLogin(req, res, next) {
     const username = req.body.username;
+
     const password = req.body.password;
+
     User.findOne({ username: username })
       .then((data) => {
         if (data) {
@@ -27,7 +29,15 @@ class AuthController {
             .compare(password, data.password)
             .then(function (data2) {
               if (data2) {
-                req.session.username = username;
+                const accessToken = jwt.sign(
+                  req.body,
+                  process.env.ACCESS_TOKEN_SECRET,
+                  {
+                    expiresIn: "10m",
+                  }
+                );
+                req.session.token = accessToken;
+                req.session.username = req.body.username;
                 return res.redirect("/");
               } else {
                 return res.render("page/form/login", {
@@ -64,9 +74,7 @@ class AuthController {
           });
         }
       })
-      .catch((err) => {
-
-      });
+      .catch((err) => {});
   }
 }
 

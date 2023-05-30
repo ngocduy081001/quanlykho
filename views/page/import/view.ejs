@@ -1,0 +1,177 @@
+<%# views/layout/master/ejs %>
+    <!DOCTYPE html>
+    <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
+        data-assets-path="/admin/assets/" data-template="vertical-menu-template-free">
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+        <title>
+            <%= title %>
+        </title>
+
+        <meta name="description" content="" />
+
+        <%- include('../../partial/css.ejs'); -%>
+            <link rel="stylesheet" href="/admin/assets/css/import.css" />
+    </head>
+
+    <body>
+        <!-- Layout wrapper -->
+        <div class="layout-wrapper layout-content-navbar">
+            <div class="layout-container">
+                <!-- Menu -->
+
+                <%- include('../../partial/side-bar.ejs'); -%>
+                    <!-- / Menu -->
+
+                    <!-- Layout container -->
+                    <div class="layout-page">
+                        <!-- Navbar -->
+
+                        <%- include('../../partial/nav'); -%>
+
+                            <!-- / Navbar -->
+
+                            <!-- Content wrapper -->
+
+                            <div class="content-wrapper   ">
+                                <!-- Content -->
+
+                                <div class="container-xxl flex-grow-1 container-p-y">
+
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="75px">
+                                                <div style="width: 100px;" class="logotype">
+                                                    <p>Code: <%- product.code %></p>
+                                                </div>
+                                            </td>
+                                            <td width="300px"
+                                                style="background: #fee977;border-left:15px solid #fff; padding-left:30px;font-size:26px;font-weight:bold;letter-spacing:-1px;">
+                                                PHIẾU NHẬP HÀNG</td>
+                                            <td style="float:right">
+                                                <div style="width: 100px; " class="logotype">
+                                                    <p>Mã kho: <%- product.b[0].name %></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <h3 class="p-md-3">Thông tin liện hệ</h3>
+                                    <table width="100%" style="border-collapse: collapse;">
+                                        <tr>
+                                            <td width="180px" class="column-title">Email
+                                            <td>
+                                            <td class="column-detail">ngocduy081001@gmail.com
+                                            <td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-title">Tên công ty
+                                            <td>
+                                            <td class="column-detail"> PHAM TRAN NGOC DUY
+                                            <td>
+                                        </tr>
+                                        <tr>
+                                            <td class="column-title">Địa chỉ
+                                            <td>
+                                            <td class="column-detail"> Tân Bình, HCM
+                                            <td>
+                                            </td>
+                                        <tr>
+                                            <td class="column-title">Điện thoại
+                                            <td>
+                                            <td class="column-detail">0046 76 12 34 56
+                                            <td>
+                                        </tr>
+                                    </table>
+                                    <h3 class="p-md-3">Sản phẩm</h3>
+
+                                    <div class="table-responsive text-nowrap">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Mã Sản Phẩm</th>
+                                                    <th>Tên Sản Phẩm</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Đơn giá</th>
+                                                    <th>Thành tiền</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <% product.info_product.forEach( (element,index)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                                            <strong>
+                                                                <%= element.code %>
+                                                            </strong>
+                                                        </td>
+                                                        <td>
+                                                            <%= element.name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.product[index].quantity %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.product[index].price %>
+                                                        </td>
+                                                        <td>
+                                                            <%= product.product[index].quantity *
+                                                                product.product[index].price %>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                                        <tr>
+                                                            <th>Tổng tiền</th>
+                                                            <th colspan="4">
+                                                                <h5 style="float:right">
+                                                                    <%= product.tong_cong %> VND
+                                                                </h5>
+                                                            </th>
+                                                        </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="alert">Ghi chú</div>
+
+                                </div><!-- container -->
+                                <!-- / Content -->
+
+                                <!-- Footer -->
+                                <footer class="content-footer footer bg-footer-theme">
+                                    <div
+                                        class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                                        <div class="mb-2 mb-md-0">
+                                            ©
+                                            <script>
+                                                document.write(new Date().getFullYear());
+                                            </script>
+                                            PHAM TRAN NGOC DUY
+                                        </div>
+
+                                    </div>
+                                </footer>
+                                <!-- / Footer -->
+
+                                <div class="content-backdrop fade"></div>
+                            </div>
+
+                            <!-- Content wrapper -->
+                    </div>
+                    <!-- / Layout page -->
+            </div>
+
+            <!-- Overlay -->
+            <div class="layout-overlay layout-menu-toggle"></div>
+        </div>
+        <!-- / Layout wrapper -->
+
+
+        <%- include('../../partial/script.ejs'); -%>
+
+    </body>
+
+    </html>

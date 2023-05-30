@@ -10,7 +10,7 @@ const { validate } = require("../validate/ProductValidator");
 
 const { check } = require("express-validator/check");
 
-var checkAuth = require("../middleware/checkUser")
+
 
 router.get("/danh-sach/",productController.gird);
 

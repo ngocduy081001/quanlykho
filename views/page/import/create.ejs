@@ -118,7 +118,20 @@
                           </div>
                         </div>
 
-                        <form>
+                        
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Kho</label>
+                            <div class="col-sm-10">
+                              <select class="form-select" id="warehouse">
+
+                                <% warehouse.forEach( function (element) { %>
+                                  <option value="<%= element._id %>">
+                                    <%= element.name %>
+                                  </option>
+                                  <% }) %>
+                              </select>
+                            </div>
+                          </div>
                           <div class="row mb-3">
                             <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Ngày</label>
                             <div class="col-sm-10">
@@ -132,7 +145,7 @@
                             </div>
                           </div>
 
-                        </form>
+                      
 
                       </div>
                     </div>
@@ -141,34 +154,34 @@
                         <h5 class="mb-0">Thông tin thanh toán</h5>
                       </div>
                       <div class="card-body">
-                        <form>
-                          <div class="mb-3">
-                            <label class="form-label" for="tien_hang">Tiền hàng</label>
-                            <input type="text" value="" onkeyup="return thanh_toan()" class="form-control"
-                              id="tien_hang" placeholder="" disabled>
-                          </div>
 
-                          <div class="mb-3">
-                            <label class="form-label" for="tong_cong">Tổng cộng</label>
-                            <input readonly type="text" class="form-control" id="tong_cong" placeholder="">
+                        <div class="mb-3">
+                          <label class="form-label" for="tien_hang">Tiền hàng</label>
+                          <input type="text" value="" onkeyup="return thanh_toan()" class="form-control" id="tien_hang"
+                            placeholder="" disabled>
+                        </div>
+
+                        <div class="mb-3">
+                          <label class="form-label" for="tong_cong">Tổng cộng</label>
+                          <input readonly type="text" class="form-control" id="tong_cong" placeholder="">
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="thanh_toan">Thanh toán</label>
+                          <div class="input-group input-group-merge">
+                            <input value="" type="text" id="thanh_toan" class="form-control" placeholder=""
+                              aria-label="john.doe" aria-describedby="thanh_toan">
                           </div>
-                          <div class="mb-3">
-                            <label class="form-label" for="thanh_toan">Thanh toán</label>
-                            <div class="input-group input-group-merge">
-                              <input value="" type="text" id="thanh_toan" class="form-control" placeholder=""
-                                aria-label="john.doe" aria-describedby="thanh_toan">
-                            </div>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="cong_no">Công nợ</label>
+                          <div class="input-group input-group-merge">
+                            <input readonly type="text" id="cong_no" class="form-control" placeholder=""
+                              aria-label="john.doe" aria-describedby="cong_no">
                           </div>
-                          <div class="mb-3">
-                            <label class="form-label" for="cong_no">Công nợ</label>
-                            <div class="input-group input-group-merge">
-                              <input readonly type="text" id="cong_no" class="form-control" placeholder=""
-                                aria-label="john.doe" aria-describedby="cong_no">
-                            </div>
-                          </div>
-                          <button type="submit" onclick=" getProduct(this)" class="btn btn-primary">Lưu</button>
-                          <button type="submit" onclick=" getProduct(this)" class="btn btn-primary">Lưu và xem</button>
-                        </form>
+                        </div>
+                        <button type="submit" onclick=" getProduct(this)" class="btn btn-primary">Lưu</button>
+                        <button type="submit" onclick=" getProduct(this)" class="btn btn-primary">Lưu và xem</button>
+
                       </div>
                     </div>
                   </div>
@@ -446,10 +459,17 @@
           cong_no()
         }
 
-
+        function a(){
+          window.location.href = "/nhap-hang/them"
+        }
         function getProduct(e) {
           var date = $('#theDate').val();
           var note = $('#note').val();
+          var tien_hang = $('#tien_hang').val();
+          var tong_cong = $('#tong_cong').val();
+          var thanh_toan = $('#thanh_toan').val();
+          var cong_no = $('#cong_no').val();
+          var warehouse = $('#warehouse').val();
           var sp = [];
           $('tbody tr').each(function (index, element) {
             var product = $(element).data('id')
@@ -470,9 +490,18 @@
               product: sp,
               date: date,
               note: note,
+              tien_hang: tien_hang,
+              thanh_toan: thanh_toan,
+              cong_no: cong_no,
+              tong_cong: tong_cong,
+              kho_hang: warehouse,
             },
-            success: function (data) {
-              console.log(data);
+            success : function(res){
+              if (res.status == 200) {
+                $.notify("Lập phiếu thành công", "success");
+                setInterval(a,2000);
+               /// window.location.href = "/nhap-hang/them"
+              }
             }
           });
 

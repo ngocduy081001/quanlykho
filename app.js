@@ -16,12 +16,7 @@ var client = redis.createClient();
 
 client.connect().catch(console.error);
 
-var store = new redisStore({
-  host: "localhost",
-  port: 6379,
-  client: client,
-  ttl: 260,
-});
+
 
 var path = require("path");
 
@@ -48,7 +43,6 @@ var categoryRouter = require("./routes/categoreis");
 var importRouter = require("./routes/imports");
 
 var app = express();
-
 
 // view engine setup
 
@@ -87,24 +81,27 @@ app.use(
 );
 app.use(flash());
 
-// route
+
 
 //Khai báo sử dụng middleware
 app.use((req, res, next) => {
 
-  if (req.url == "/dang-nhap" && req.session.username === "undefined") {
-    
+  if (req.url == "/dang-nhap" && typeof req.session.token === "undefined") {
     next();
   }
+  if (req.url != "/dang-nhap" && typeof req.session.token === "undefined") {
 
-  if (req.session.username !== "undefined" && req.url != "/dang-nhap") {
+    res.redirect("/dang-nhap");
+  }
+  if (typeof  req.session.token !== "undefined" && req.url != "/dang-nhap") {
     next();
   }
-  if (req.session.username !== "undefined" && req.url == "/dang-nhap") {
-    res.redirect('/')
+  if (typeof req.session.token !== "undefined" && req.url == "/dang-nhap") {
+    res.redirect("/");
   }
 });
 
+// route
 app.use("/", indexRouter);
 
 app.use("/users", usersRouter);

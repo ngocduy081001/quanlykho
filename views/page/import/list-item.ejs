@@ -1,0 +1,105 @@
+<div class="card">
+    <div class="table-responsive text-nowrap">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><input name="chk-all" id="check-all" type="checkbox">
+                    </th>
+                    <th>STT</th>
+                    <th>Mã phiếu</th>
+                    <th>Kho hàng</th>
+                    <th>Người lập</th>
+                    <th>Ngày lập</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                <% let i=perPage * page - perPage %>
+                    <% data.forEach(function(data){ %>
+                        <tr id="supplier-<%= data._id  %>">
+                            <td>
+                                <input name="chk-item" value="<%= data._id  %>" type="checkbox">
+                            </td>
+                            <td>
+                                <strong>
+                                    <%= i+=1 %>
+                                </strong>
+                            </td>
+                            <td>
+                                <strong>
+                                    <%= data.code %>
+                                </strong>
+                            </td>
+                            <td>
+                                <strong>
+                                    <%= data.warehouse.name %>
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    <%= data.user.username %>
+                                </strong>
+                            </td>
+                            <td>
+                                <strong>
+                                    <%= data.date %>
+                                </strong>
+                            </td>
+
+
+                            <td>
+
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                        data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="<%= edit+" /"+ data._id %>"><i
+                                                class="bx bx-edit-alt me-1"></i>Sửa</a>
+                                        <a onclick="return confirm(this)" class="dropdown-item"
+                                            data-id="<%= data._id %>" data-url="<%= destroy + " /" + data._id %>"><i
+                                                class="bx bx-trash me-1"></i>Xoá</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<nav aria-label="Page navigation" style="margin-top: 20px; float: right;">
+    <ul class="pagination">
+        <li class="page-item prev">
+            <a <% if (current==1) { %>
+                style=" pointer-events: none"<% } %>
+                    class="page-link disabled" href="?trang=<%= current - 1 %>
+                        "><i class="tf-icon bx bx-chevrons-left"></i>
+            </a>
+        </li>
+
+        <% for (let index=1; index <=pages ; index++) { if (index==current) { %>
+            <li class="page-item active">
+                <a class="page-link" href="?trang=<%= index %>">
+                    <%= index %>
+                </a>
+            </li>
+
+            <% } else{ %>
+                <li class="page-item">
+                    <a class="page-link" href="?trang=<%= index %>">
+                        <%= index %>
+                    </a>
+                </li>
+
+                <% } } %>
+                    <li class="page-item prev">
+                        <a class="page-link" <% if (current==pages) { %>
+                            style=" pointer-events: none"<% } %>
+                                href="?trang=<%= Number(current) + 1 %>"><i
+                                        class="tf-icon bx bx-chevrons-right"></i></a>
+                    </li>
+    </ul>
+</nav>

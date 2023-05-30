@@ -7,7 +7,7 @@ const importSchema = new Schema(
   {
     count: Number,
     code: String,
-    warehouse: {
+    warehouse_id: {
       type: String,
       ref: "warehouse",
     },
@@ -16,9 +16,17 @@ const importSchema = new Schema(
       type: String,
       ref: "user",
     },
-    total: Number,
-    debt: Number,
-    product: Array,
+    tong_cong: Number,
+    thanh_toan: Number,
+    tien_hang: Number,
+    cong_no: Number,
+    note: String,
+    product: {
+      type: Object,
+      ref: "product",
+    },
+
+    date: Date,
   },
   {
     timestamps: true,

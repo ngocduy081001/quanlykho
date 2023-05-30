@@ -18,6 +18,7 @@ const WareHouseModel = require("../model/WareHouseModel");
 
 class ProductController {
   async gird(req, res) {
+    console.log(req.session);
     var url_parts = url.parse(req.url, true);
 
     var query = url_parts.query;

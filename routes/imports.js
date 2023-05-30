@@ -14,6 +14,9 @@ router.get("/them", ImportController.create);
 
 router.post("/them", ImportController.post);
 
+
+router.get("/xem/:id", ImportController.view);
+
 // router.get("/sua/:id", ImportController.edit);
 
 // router.post("/sua/:id", validate.create, ImportController.update);
